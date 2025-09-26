@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class ActivityLog extends Model
 {
@@ -22,20 +23,14 @@ class ActivityLog extends Model
     protected $casts = [
         'old_values' => 'array',
         'new_values' => 'array',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
-
-    public $timestamps = false;
-    protected $dates = ['created_at'];
 
     // Relations
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function model()
-    {
-        return $this->morphTo();
     }
 
     // Methods
@@ -49,7 +44,7 @@ class ActivityLog extends Model
             'old_values' => $model->getOriginal(),
             'new_values' => $model->getAttributes(),
             'description' => $description,
-            'created_at' => now(),
+            // Laravel gère automatiquement created_at et updated_at
         ]);
     }
 }

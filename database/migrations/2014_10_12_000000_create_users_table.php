@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('password');
             $table->enum('role', ['admin', 'chef_projet', 'employe'])->default('employe');
             $table->boolean('is_active')->default(true);
+            $table->string('avatar')->nullable(); // <-- Champ avatar ajouté
             $table->rememberToken();
             $table->timestamps();
         });

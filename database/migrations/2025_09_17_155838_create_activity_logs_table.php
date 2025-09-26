@@ -17,8 +17,8 @@ return new class extends Migration
             $table->json('old_values')->nullable();
             $table->json('new_values')->nullable();
             $table->text('description')->nullable();
-            $table->timestamp('created_at');
-
+            $table->timestamps(); // Ajoute created_at ET updated_at
+            
             $table->index(['model_type', 'model_id']);
             $table->index(['user_id', 'created_at']);
         });

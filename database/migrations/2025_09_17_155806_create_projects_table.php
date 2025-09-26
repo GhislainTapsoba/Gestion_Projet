@@ -14,7 +14,7 @@ return new class extends Migration
             $table->text('description');
             $table->date('start_date');
             $table->date('end_date');
-            $table->enum('status', ['planifie', 'en_cours', 'termine', 'suspendu'])->default('planifie');
+            $table->enum('status', ['planifie', 'en_cours', 'en_pause', 'termine', 'annule'])->default('planifie');
             $table->foreignId('chef_projet_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->json('team_members')->nullable(); // Array d'IDs des membres

@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\TaskController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ProjectController;
+use App\Http\Controllers\Api\TaskController;
+use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\ExportController;
 
 // Routes d'authentification
 Route::prefix('auth')->group(function () {
@@ -18,7 +20,13 @@ Route::prefix('auth')->group(function () {
 
 // Routes protégées
 Route::middleware('auth:sanctum')->group(function () {
-    
+    // Utilisateurs
+    Route::get('users', [UserController::class, 'index']);
+    Route::get('users/{user}', [UserController::class, 'show']);
+    Route::put('users/{user}', [UserController::class, 'update']);
+    Route::post('users', [UserController::class, 'store']);
+    Route::delete('users/{user}', [UserController::class, 'destroy']);
+
     // Dashboard
     Route::prefix('dashboard')->group(function () {
         Route::get('stats', [DashboardController::class, 'stats']);
@@ -29,6 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('projects', ProjectController::class);
     Route::get('projects/{project}/stages', [ProjectController::class, 'stages']);
     Route::get('projects/{project}/tasks', [ProjectController::class, 'tasks']);
+    Route::get('projects/{project}/users', [ProjectController::class, 'users']);
 
     // Tâches
     Route::apiResource('tasks', TaskController::class);
@@ -40,4 +49,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('role:admin')->group(function () {
         // Routes d'administration
     });
+
+    // Exportation de données
+    Route::post('/export', [ExportController::class, 'export']);
 });
